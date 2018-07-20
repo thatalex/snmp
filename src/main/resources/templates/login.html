@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+>
+<head>
+    <title>SNMP</title>
+    <div th:replace="fragments/header :: header-css"/>
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/4.1.0/css/bootstrap.min.css}"/>
+    <script th:src="@{/webjars/bootstrap/4.1.0/js/bootstrap.min.js}"/>
+</head>
+<body>
+
+<div th:replace="fragments/header :: header"/>
+
+<div class="container mw-100 h-100">
+    <div class="row h-100 align-items-center">
+        <div class="col-4 mx-auto">
+            <form th:action="@{/login}" method="post" class="form-horizontal"
+                  role="form">
+                <h1 class="text-white  text-center" th:text="#{login}">Вход</h1>
+                <div class="form-group">
+                    <label
+                            th:if="${param.error}"
+                            class="text-light validation-message" th:text="#{validation.wrong.email}">Неверный e-mail</label>
+                    <input type="email" name="email" id="email" th:value="${email}" class="form-control"
+                          placeholder="user@email.com" required="true" autofocus="true"/>
+                </div>
+                <div class="form-group">
+                    <label
+                            th:if="${param.error}"
+                            class="text-light validation-message" th:text="#{validation.wrong.password}">или пароль</label>
+                    <input type="password" name="password" id="password" th:value="${password}" class="form-control"
+                           th:placeholder="#{password}" placeholder="Пароль" required="true"/>
+                </div>
+                <div class="form-group">
+                    <input type="submit" class="btn btn-outline-warning btn-block" th:value="#{submit}" value="Войти"/>
+                </div>
+            </form>
+        </div>
+    </div>
+
+</div>
+
+<div th:replace="fragments/footer :: footer"/>
+
+</body>
+</html>

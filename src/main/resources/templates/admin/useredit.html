@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<div th:fragment="main">
+
+    <h4 class="text-light text-center my-3 mx-auto" th:text="#{user.edit}">Редактирование пользователя</h4>
+
+    <form autocomplete="off" action="#" th:action="@{/admin/users/edit}"
+          th:object="${user}" method="post" class="form-horizontal"
+          role="form">
+        <div class="row h-100">
+            <div class="col-4">
+                <label class="text-light" th:text="#{user.data}"></label>
+                <input type="hidden" th:value="*{id}" th:field="*{id}"/>
+                <div class="form-group">
+                    <div class="input-group">
+                        <label th:if="${#fields.hasErrors('name')}" th:errors="*{name}"
+                               class="text-light validation-message"></label>
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" th:text="#{name}">type</span>
+                        </div>
+                        <input type="text" th:field="*{name}" class="form-control"/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="input-group">
+                        <label
+                                th:if="${#fields.hasErrors('email')}" th:errors="*{email}"
+                                class="text-light validation-message">E-mail already registered</label>
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" th:text="#{email}">type</span>
+                        </div>
+                        <input type="email" th:field="*{email}" placeholder="user@mail.com" class="form-control"/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" th:text="#{role}">type</span>
+                        </div>
+                        <select size="3" class="form-control" multiple="multiple" th:field="*{roles}"
+                                th:remove="all-but-first">
+                            <option th:each="role, iter: ${T(by.spalex.diplom.snmp.model.Role).values()}"
+                                    th:field="*{roles}"
+                                    th:value="${role}"
+                                    th:text="${role.name()}"
+                            />
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" th:text="#{password}">type</span>
+                        </div>
+                        <input type="password" th:field="*{password}" class="form-control"/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="input-group">
+                        <label
+                                th:if="${#fields.hasErrors('password')}" th:errors="*{password}"
+                                class="text-light validation-message">Passwords not equal</label>
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" th:text="#{password.repeat}">type</span>
+                        </div>
+                        <input type="password" id="passRepeat" name="passRepeat" class="form-control"/>
+                    </div>
+                </div>
+                <div class="form-check">
+                    <div>
+                        <label class="text-light form-check-label" th:inline="text">
+                            <input type="checkbox" class="form-check-input" th:field="*{active}"/>
+                            [[#{user.active}]]&nbsp;
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-4">
+                <label class="text-light" th:text="#{group.list}"></label>
+                <select size="12" class="form-control" multiple="multiple" th:field="*{groupLists}"
+                        th:remove="all-but-first">
+                    <option th:each="list, iter: ${lists}"
+                            th:field="*{groupLists}"
+                            th:value="${list.id}"
+                            th:text="${list.name}"
+                    />
+                </select>
+            </div>
+            <div class="col-4">
+                <label class="text-light" th:text="#{groups}"></label>
+                <select size="12" class="form-control" multiple="multiple" th:field="*{groups}"
+                        th:remove="all-but-first">
+                    <option th:each="group, iter: ${groups}"
+                            th:field="*{groups}"
+                            th:value="${group.id}"
+                            th:text="${group.name}"
+                    />
+                </select>
+            </div>
+        </div>
+        <div class="form-group col-8 mx-auto my-3">
+            <div>
+                <button th:text="#{save}" type="submit" class="btn btn-outline-warning btn-block">Сохранить</button>
+            </div>
+        </div>
+        <div class="form-group col-8 mx-auto my-3">
+            <div>
+                <button th:text="#{back}" th:onclick="'location.href=\''+@{/admin/users}+'\''" type="button"
+                        class="btn btn-outline-warning btn-block">Вернуться
+                </button>
+            </div>
+        </div>
+    </form>
+
+</div>
+</body>
+</html>

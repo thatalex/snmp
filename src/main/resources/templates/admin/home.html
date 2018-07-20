@@ -1,0 +1,39 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Store</title>
+    <div th:replace="fragments/header :: header-css"/>
+</head>
+<body>
+
+<div th:replace="fragments/header :: header"/>
+
+<div class="container mw-100 h-100">
+    <div th:if="${page}">
+        <div th:replace="'admin/'+${page} :: main"/>
+    </div>
+</div>
+
+<div th:replace="fragments/footer :: footer"/>
+<div class="modal fade" id="messageModal">
+    <div class="modal-dialog  modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+                <p th:text="${message}"></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" th:text="#{close}">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script th:inline="javascript">
+    var msg = /*[[${message}]]*/
+        $(window).on('load', function () {
+            if (msg) {
+                $('#messageModal').modal('show');
+            }
+        });
+</script>
+</body>
+</html>

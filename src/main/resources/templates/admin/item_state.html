@@ -1,0 +1,49 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Store</title>
+    <div th:replace="fragments/header :: header-css"/>
+</head>
+<body>
+
+<div th:replace="fragments/header :: header"/>
+
+<div th:fragment="main">
+    <h4 class="text-light my-3 mx-auto" th:text="#{header.report}">Report</h4>
+    <div class="btn-group blocks my-3" role="group">
+        <a th:href="@{/admin/items/view(id=${item.id})}" class="btn btn-outline-warning mx-3" th:text="#{refresh}">refresh</a>
+        <a id="view_button" href="#" class="btn btn-outline-warning  mx-3" th:text="#{history}">history</a>
+        <button th:text="#{back}" th:onclick="'location.href=\''+@{/admin/items}+'\''" type="button" class="btn btn-outline-warning mx-3">Вернуться</button>
+    </div>
+    <br/>
+    <label class="text-light my-3 mx-auto" th:text="${item.name}"/>
+    <div th:if="${item.childItems}" class="tablediv my-3 table-responsive">
+        <table class="table table-bordered ">
+            <thead class="thead-dark">
+            <tr>
+                <th class="text-light" th:text="#{date}">Дата</th>
+                <th class="text-light" th:text="#{naming}">name</th>
+                <th class="text-light" th:text="#{type}">type</th>
+                <th class="text-light" th:text="#{message}">name</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:if="${item.childItems.empty}">
+                <td colspan="3" th:text="#{list.is.empty}">Список пуст</td>
+            </tr>
+            <tr class="selectable_row" th:each="child, iter : ${item.childItems}" th:id="${'row_' + iter.count}" th:with="first=${child.first()}"
+                th:onclick="${'javascript:onRowSelect(''admin/probes'', ''row_' + iter.count +''', ' + child.id + ')'}">
+                <td class="text-light" th:text="${first!=null?#temporals.format(first.date, 'yyyy-MM-dd HH:mm'):''}">dd-MM-yyyy HH:mm</td>
+                <td class="text-light" th:text="${child.getName()}">name</td>
+                <td class="text-light" th:text="${child.type}">name</td>
+                <td class="text-light" th:text="${first!=null?first.value:''}">name</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div th:replace="fragments/footer :: footer"/>
+
+</body>
+</html>

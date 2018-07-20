@@ -1,0 +1,43 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Store</title>
+    <div th:replace="fragments/header :: header-css"/>
+</head>
+<body>
+
+<div th:replace="fragments/header :: header"/>
+
+<div th:fragment="main">
+    <h4 class="text-light my-3 mx-auto" th:text="#{history}">Report</h4>
+    <div class="btn-group blocks my-3" role="group">
+        <a th:href="@{/admin/probes/view(id=${item.id})}" class="btn btn-outline-warning mx-3" th:text="#{refresh}">refresh</a>
+        <button th:text="#{back}" onclick="history.back()" type="button" class="btn btn-outline-warning mx-3">Вернуться</button>
+    </div>
+    <br/>
+    <label class="text-light my-3 mx-auto" th:text="${item.getName()}"/>
+    <div th:if="${item.probes}" class="tablediv my-3 table-responsive">
+        <table class="table table-bordered ">
+            <thead class="thead-dark">
+            <tr>
+                <th class="text-light" th:text="#{date}">Дата</th>
+                <th class="text-light" th:text="#{message}">name</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:if="${item.probes.empty}">
+                <td colspan="2" th:text="#{list.is.empty}">Список пуст</td>
+            </tr>
+            <tr class="selectable_row" th:each="probe, iter : ${item.probes}">
+                <td class="text-light" th:text="${#temporals.format(probe.date, 'yyyy-MM-dd HH:mm')}">value</td>
+                <td class="text-light" th:text="${probe.value}">name</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div th:replace="fragments/footer :: footer"/>
+
+</body>
+</html>

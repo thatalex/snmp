@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<body>
+
+<ul th:fragment="navbar" sec:authorize="hasAuthority('ADMIN')" class="nav nav-pills">
+    <li class="nav-item">
+        <a class="nav-link text-warning" href="/admin/users" th:href="@{/admin/users}" th:text="#{header.users}">
+            <span aria-hidden="true"/>&nbsp;Users
+        </a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link text-warning" href="/admin/lists" th:href="@{/admin/lists}" th:text="#{header.lists}">
+            <span aria-hidden="true"/>&nbsp;Lists
+        </a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link text-warning" href="/admin/groups" th:href="@{/admin/groups}" th:text="#{header.groups}">
+            <span aria-hidden="true"/>&nbsp;Groups
+        </a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link text-warning" href="/admin/items" th:href="@{/admin/items}" th:text="#{header.items}">
+            <span aria-hidden="true"/>&nbsp;Elements
+        </a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link text-warning" href="/admin/maintance" th:href="@{/admin/maintance}" th:text="#{header.maintance}">
+            <span aria-hidden="true"/>&nbsp;Elements
+        </a>
+    </li>
+</ul>
+</body>
+</html>

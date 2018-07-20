@@ -1,0 +1,36 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Store</title>
+    <div th:replace="fragments/header :: header-css"/>
+</head>
+<body>
+
+<div th:replace="fragments/header :: header"/>
+
+<div class="container">
+    <label class="col-12 text-light text-center my-3" th:text="#{groups}"></label>
+    <div class="row align-items-center my-3" th:object="${user}">
+        <div class="col-4 mx-auto">
+            <div class="list-group" id="list-tab" role="tablist">
+                <a th:each="group: ${user.groups}"
+                   class="list-group-item list-group-item-dark d-flex justify-content-between align-items-center"
+                   id="list-lists"
+                   th:href="@{/user/listgroups(id=${group.id})}" role="tab" aria-controls="lists" th:inline="text">[[${group.name}]]
+                    <span class="badge badge-primary badge-pill" th:text="${#lists.size(group.items)}">14</span></a>
+            </div>
+        </div>
+    </div>
+    <div class="form-group col-4 mx-auto my-3">
+        <div>
+            <button th:text="#{back}" onclick="history.back()" type="button" class="btn btn-outline-warning btn-block">
+                Вернуться
+            </button>
+        </div>
+    </div>
+</div>
+
+<div th:replace="fragments/footer :: footer"/>
+
+</body>
+</html>

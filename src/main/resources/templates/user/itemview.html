@@ -1,0 +1,125 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head>
+    <title>Store</title>
+    <div th:replace="fragments/header :: header-css"/>
+</head>
+<body>
+
+<div th:replace="fragments/header :: header"/>
+
+<div class="container mw-100 h-100">
+    <label class="col-12 text-light text-center my-3" th:text="#{item.data}"></label>
+    <form autocomplete="off" action="#" th:action="@{/user/items/edit}"
+          th:object="${item}" method="post" class="form-horizontal"
+          role="form">
+        <div class="row align-items-center my-3">
+            <div class="col-5 mx-auto">
+                <input type="hidden" th:value="*{id}" th:field="*{id}"/>
+                <div class="form-group">
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" th:text="#{name}">First and last name</span>
+                        </div>
+                        <input type="text" th:readonly="${!#authorization.expr('hasAuthority(''POWERUSER'')')}"
+                               th:field="*{name}" th:placeholder="#{name}" placeholder="Имя"
+                               class="form-control"/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" th:text="#{oid}">oid</span>
+                        </div>
+                        <input type="text" readonly="readonly" th:field="*{oid}" th:placeholder="#{oid}"
+                               placeholder="Имя"
+                               class="form-control"/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" th:text="#{address}">First and last name</span>
+                        </div>
+                        <input type="text" readonly="readonly" th:field="*{address}" th:placeholder="#{address}"
+                               placeholder="address"
+                               class="form-control"/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" th:text="#{publicCommunity}">First and last name</span>
+                        </div>
+                        <input type="text" readonly="readonly" th:field="*{publicCommunity}"
+                               th:placeholder="#{publicCommunity}" placeholder="publicCommunity"
+                               class="form-control"/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" th:text="#{privateCommunity}">privateCommunity</span>
+                        </div>
+                        <input type="text" readonly="readonly" th:field="*{privateCommunity}"
+                               th:placeholder="#{privateCommunity}" placeholder="privateCommunity"
+                               class="form-control"/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" th:text="#{type}">First and last name</span>
+                        </div>
+                        <input type="text" readonly="readonly" th:field="*{type}" th:placeholder="#{type}"
+                               placeholder="type"
+                               class="form-control"/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" th:text="#{probe.period.sec}">probe period</span>
+                        </div>
+                        <input type="text"
+                               th:readonly="${!#authorization.expr('hasAuthority(''POWERUSER'')') or !item.childItems.empty}"
+                               th:field="*{probePeriod}" th:placeholder="#{probe.period.sec}" placeholder="probePeriod"
+                               class="form-control"/>
+                    </div>
+                </div>
+                <div th:if="${item.getParentItem()}" class="form-group">
+                    <div class="input-group">
+                        <a th:href="@{/user/items(id=${item.getParentItem().getId()})}" class="btn form-control"
+                           th:text="#{parent.item}"/>
+                    </div>
+                </div>
+                <div class="form-group" sec:authorize="hasAuthority('POWERUSER')">
+                    <button th:text="#{save}" type="submit" class="btn btn-outline-warning btn-block">Сохранить</button>
+                </div>
+            </div>
+            <div th:if="${#lists.size(item.childItems) > 0}" class="pre-scrollable col-5 mx-auto" style="height: 50vh">
+                <div class="list-group listdiv" id="list-tab" role="tablist">
+                    <a th:each="item: ${item.childItems}"
+                       class="list-group-item d-flex justify-content-between align-items-center"
+                       id="list-lists" href="#"
+                       th:href="@{/user/items(id=${item.id})}" role="tab" aria-controls="lists" th:inline="text">[[${item.name}]]
+                        <span class="badge badge-primary badge-pill" th:with="itemsSize=${#lists.size(item.childItems)}"
+                              th:text="${itemsSize > 0 ? itemsSize : ''}"></span></a>
+                </div>
+            </div>
+        </div>
+    </form>
+    <div class="form-group col-4 mx-auto my-3">
+        <div>
+            <button th:text="#{back}" th:onclick="'location.href=\''+@{/user/groups}+'\''" type="button" class="btn btn-outline-warning btn-block">
+                Вернуться
+            </button>
+        </div>
+    </div>
+</div>
+
+<div th:replace="fragments/footer :: footer"/>
+
+</body>
+</html>

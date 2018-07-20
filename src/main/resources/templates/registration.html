@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>SNMP</title>
+    <div th:replace="fragments/header :: header-css"/>
+</head>
+<body>
+
+<div th:replace="fragments/header :: header"/>
+
+<div class="container mw-100 h-100">
+    <div class="row h-100 align-items-center">
+        <div class="col-4 mx-auto">
+            <form autocomplete="off" action="#" th:action="@{/registration}"
+                  th:object="${user}" method="post" class="form-horizontal"
+                  role="form">
+                <h1 class="text-white text-center" th:text="#{signin}">Регистрация</h1>
+                <div class="form-group">
+                    <div >
+                        <label th:if="${#fields.hasErrors('name')}" th:errors="*{name}"
+                               class="text-light validation-message"></label>
+                        <input type="text" th:field="*{name}" th:placeholder="#{name}" placeholder="Имя"
+                               class="form-control" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div >
+                        <label
+                                th:if="${#fields.hasErrors('email')}" th:errors="*{email}"
+                                class="text-light validation-message" >E-mail already registered</label>
+                        <input type="email" th:field="*{email}" th:placeholder="#{email}" placeholder="Эл. почта"
+                               class="form-control" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div >
+                        <input type="password" th:field="*{password}"
+                               th:placeholder="#{password}" placeholder="Пароль" class="form-control" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div >
+                        <label
+                                th:if="${#fields.hasErrors('password')}" th:errors="*{password}"
+                                class="text-light validation-message" >Passwords not equal</label>
+                        <input type="password" id="passRepeat" name="passRepeat"
+                               th:placeholder="#{password.repeat}"  placeholder="Повтор пароля" class="form-control" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div >
+                        <button th:text="#{submit}" type="submit" class="btn btn-outline-warning btn-block">Зарегистрироваться</button>
+                    </div>
+                </div>
+                <span th:utext="${result}"></span>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div th:replace="fragments/footer :: footer"/>
+
+</body>
+</html>

@@ -1,0 +1,53 @@
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head>
+    <div th:fragment="header-css">
+        <!-- this is header-css -->
+        <link rel="stylesheet" th:href="@{/webjars/bootstrap/4.1.0/css/bootstrap.min.css}"/>
+        <link rel="stylesheet" type="text/css" th:href="@{/css/main.css}"/>
+        <link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap-gtreetable.min.css}"/>
+        <script th:src="@{/webjars/jquery/3.1.1/jquery.min.js}"/>
+        <script th:src="@{/webjars/bootstrap/4.1.0/js/bootstrap.min.js}"/>
+        <script th:inline="javascript" th:src="@{/js/rowselect.js}"/>
+        <script th:inline="javascript" th:src="@{/js/bootstrap-gtreetable.min.js}"/>
+        <script th:inline="javascript" th:src="@{/js/bootstrap-gtreetable.ru.min.js}"/>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    </div>
+</head>
+<body>
+<div th:fragment="header">
+    <!-- this is header -->
+    <nav class="navbar justify-content-start navbar-dark bg-dark" style="opacity: 0.7">
+        <a class="navbar-brand text-warning" th:href="@{/}" th:inline="text">
+            <img th:src="@{/images/home_icon.png}" class="rounded  mx-auto" style="width: 32px"/>
+            &nbsp;[[#{brand}]]
+        </a>
+        <div th:replace="admin/header :: navbar"/>
+        <div th:replace="user/header :: navbar"/>
+        <ul class="nav ml-auto">
+            <li sec:authorize="!isAuthenticated()">
+                <a class="nav-link text-warning" href="/registration" th:href="@{/registration}" th:inline="text">
+                    &nbsp;[[#{signin}]]
+                </a>
+            </li>
+            <li sec:authorize="!isAuthenticated()" class="nav-item">
+                <a class="nav-link text-warning" href="/login" th:href="@{/login}" th:inline="text">
+                    &nbsp;[[#{login}]]
+                </a>
+            </li>
+            <li class="nav-link text-warning" sec:authorize="isAuthenticated()">
+                <a sec:authentication="name"/>
+            </li>
+            <li sec:authorize="isAuthenticated()" class="nav-item">
+                <a class="nav-link text-warning" href="/logout" th:href="@{#}" onclick="$('#form').submit();" th:inline="text">
+                    <span class="glyphicon glyphicon-log-out" aria-hidden="true"/>&nbsp;[[#{logout}]]
+                </a>
+                <form style="visibility: hidden" id="form" method="post" action="#"
+                      th:action="@{/logout}"></form>
+            </li>
+        </ul>
+    </nav>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<div th:fragment="main">
+    <span class="hidden-print" th:utext="${result}"></span>
+    <h4 class="text-light my-3" th:text="#{group.list}">Спиcки групп</h4>
+    <div class="btn-group blocks my-3" role="group">
+        <a th:href="@{/admin/lists/edit}" class="btn btn-outline-warning mx-3" th:text="#{new}">Новый</a>
+        <a id="edit_button" href="#" class="btn btn-outline-warning  mx-3" th:text="#{edit}">Редактировать</a>
+        <form id="copy_button" action="#" method="post">
+            <button type="submit" name="copy" value="#" class="btn btn-outline-warning mx-3" th:text="#{copy}">
+                Копировать
+            </button>
+        </form>
+        <form id="delete_button" action="#" method="post">
+            <button type="submit" name="delete" value="#" class="btn btn-outline-warning mx-3" th:text="#{delete}">
+                Удалить
+            </button>
+        </form>
+    </div>
+    <div class="tablediv my-3 table-responsive">
+        <table class="table table-bordered ">
+            <thead class="thead-dark">
+            <tr>
+                <th class="text-light" th:text="#{naming}">Наименование</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:if="${lists.empty}">
+                <td colspan="1" th:text="#{list.is.empty}">Список пуст</td>
+            </tr>
+            <tr class="selectable_row" th:each="item, iter : ${lists}" th:id="${'row_' + iter.count}"
+                th:onclick="${'javascript:onRowSelect(''admin/lists'', ''row_' + iter.count +''', ' + item.id + ')'}">
+                <td class="text-light" th:text="${item.name}">value</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+</body>
+</html>

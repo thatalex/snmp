@@ -1,0 +1,42 @@
+html {
+    height: 100%;
+    box-sizing: border-box;
+}
+html,
+body {
+    height: 100%;
+    background-image: url("/images/background.jpg");
+}
+
+*,
+*:before,
+*:after {
+    box-sizing: inherit;
+}
+
+.tablediv{
+    max-height: 40rem;
+    overflow-y: auto;
+}
+
+.listdiv{
+    max-height: 8rem;
+}
+
+body {
+    position: relative;
+    margin: 0;
+    padding-bottom: 6rem;
+    height: 100%;
+}
+
+.highlight {
+    background-color: #FFFF99;
+}
+
+.file_input {
+    position: absolute;
+    opacity: 0;
+    right: 0;
+    top: 0;
+}

@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<div th:fragment="main">
+
+    <h4 class="text-light text-center my-3 mx-auto" th:text="#{item.edit}">Редактирование элемента</h4>
+
+    <form autocomplete="off" action="#" th:action="@{/admin/items/edit}"
+          th:object="${item}" method="post" class="form-horizontal"
+          role="form">
+        <div class="row h-100">
+            <div class="col-4 mx-auto">
+                <label class="text-light" th:text="#{item.data}"></label>
+                <input type="hidden" th:value="*{id}" th:field="*{id}"/>
+                <input type="hidden" th:value="*{parentItem}" th:field="*{parentItem}"/>
+                <input type="hidden" th:value="*{groups}" th:field="*{groups}"/>
+                <div class="form-group">
+                    <div class="input-group">
+                        <label th:if="${#fields.hasErrors('name')}" th:errors="*{name}"
+                               class="text-light validation-message"></label>
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" th:text="#{name}">oid</span>
+                        </div>
+                        <input type="text" th:field="*{name}" class="form-control"/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="input-group">
+                        <label th:if="${#fields.hasErrors('oid')}" th:errors="*{oid}"
+                               class="text-light validation-message"></label>
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" th:text="#{oid}">oid</span>
+                        </div>
+                        <input type="text" th:field="*{oid}" placeholder="1.2.6.1.2.1" class="form-control"/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="input-group">
+                        <label th:if="${#fields.hasErrors('address')}" th:errors="*{address}"
+                               class="text-light validation-message"></label>
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" th:text="#{address}">oid</span>
+                        </div>
+                        <input type="text" th:field="*{address}" placeholder="127.0.0.1" class="form-control"/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" th:text="#{publicCommunity}">oid</span>
+                        </div>
+                        <input type="text" th:field="*{publicCommunity}" placeholder="public" class="form-control"/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" th:text="#{privateCommunity}">oid</span>
+                        </div>
+                        <input type="text" th:field="*{privateCommunity}" placeholder="private" class="form-control"/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" th:text="#{type}">type</span>
+                        </div>
+                        <input type="text" th:field="*{type}" class="form-control"/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" th:text="#{probe.period.sec}">type</span>
+                        </div>
+                        <input type="number" th:field="*{probePeriod}" placeholder="300" class="form-control"/>
+                    </div>
+                </div>
+
+                <div th:if="${item.getParentItem()}" class="form-group">
+                    <div class="input-group">
+                        <a th:href="@{/admin/items/edit(id=${item.getParentItem().getId()})}" class="btn form-control"
+                           th:text="#{parent.item}"/>
+                    </div>
+                </div>
+            </div>
+            <div th:if="${#lists.size(item.childItems) > 0}" class="col-4 mx-auto">
+                <label class="text-light" th:text="#{child.items}"></label>
+                <div class="pre-scrollable" style="height: 75vh">
+                    <div class="list-group listdiv" id="list-tab" role="tablist">
+                        <a th:each="item: ${item.childItems}"
+                           class="list-group-item d-flex justify-content-between align-items-center"
+                           id="list-lists" href="#"
+                           th:href="@{/admin/items/edit(id=${item.id})}" role="tab" aria-controls="lists"
+                           th:inline="text">[[${item.name}]]
+                            <span class="badge badge-primary badge-pill"
+                                  th:with="itemsSize=${#lists.size(item.childItems)}"
+                                  th:text="${itemsSize > 0 ? itemsSize : ''}"></span></a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-4 mx-auto">
+                <label class="text-light" th:text="#{available.items}"></label>
+                <select size="12" class="form-control" multiple="multiple" th:field="*{childItems}"
+                        th:remove="all-but-first">
+                    <option th:each="item, iter: ${items}"
+                            th:field="*{childItems}"
+                            th:value="${item.id}"
+                            th:text="${item.name}"
+                    />
+                </select>
+            </div>
+        </div>
+
+
+        <div th:if="${!item.childItems.empty}" class="form-group col-8 mx-auto my-3">
+            <div class="input-group">
+                <a th:href="@{/admin/items/unсhild(id=${item.id})}" class="btn btn-outline-warning btn-block"
+                   th:text="#{remove.childs}"/>
+            </div>
+        </div>
+        <div th:if="${item.getParentItem()}" class="form-group col-8 mx-auto my-3">
+            <div class="input-group">
+                <a th:href="@{/admin/items/unparent(id=${item.id})}" class="btn btn-outline-warning btn-block"
+                   th:text="#{remove.parent}"/>
+            </div>
+        </div>
+        <div class="form-group col-8 mx-auto my-3">
+            <div>
+                <button th:text="#{save}" type="submit" class="btn btn-outline-warning btn-block">Сохранить</button>
+            </div>
+        </div>
+        <div class="form-group col-8 mx-auto my-3">
+            <div>
+                <a th:text="#{back}" th:href="@{/admin/items}" type="button" class="btn btn-outline-warning btn-block">Вернуться</a>
+            </div>
+        </div>
+    </form>
+
+</div>
+</body>
+</html>

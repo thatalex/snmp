@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<body>
+
+<ul th:fragment="navbar" sec:authorize="hasAnyAuthority('USER', 'POWERUSER')" class="nav nav-pills">
+    <li class="nav-item">
+        <a class="nav-link text-warning" href="/user/lists" th:href="@{/user/lists}" th:text="#{header.lists}">
+            <span aria-hidden="true"/>&nbsp;Lists
+        </a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link text-warning" href="/user/groups" th:href="@{/user/groups}" th:text="#{header.groups}">
+            <span aria-hidden="true"/>&nbsp;Lists
+        </a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link text-warning" href="/user/report" th:href="@{/user/report}" th:text="#{header.report}">
+            <span aria-hidden="true"/>&nbsp;Report
+        </a>
+    </li>
+</ul>
+
+</body>
+</html>

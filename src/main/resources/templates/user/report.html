@@ -1,0 +1,121 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Store</title>
+    <div th:replace="fragments/header :: header-css"/>
+</head>
+<body>
+
+<div th:replace="fragments/header :: header"/>
+
+<div class="container mw-100 h-100">
+    <h4 class="text-light my-3 mx-auto" th:text="#{header.report}">Report</h4>
+    <form id="filter_form" th:object="${filter}" th:action="@{/user/report}" method="post">
+        <div class="row">
+            <div class="input-group">
+                <div class="col-3 input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" th:text="#{name}">name</span>
+                    </div>
+                    <input type="text" name="name" id="name" th:field="*{name}"
+                           class="form-control" autofocus="true"/>
+                </div>
+                <div class="col-3 input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" th:text="#{createDate.from}">from</span>
+                    </div>
+                    <input type="datetime-local" th:field="*{createDateBegin}" class="form-control" autofocus="true"/>
+                </div>
+                <div class="col-3 input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" th:text="#{till}">till</span>
+                    </div>
+                    <input type="datetime-local" th:field="*{createDateEnd}" class="form-control" autofocus="true"/>
+                </div>
+                <div class="col-3 input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" th:text="#{type}">type</span>
+                    </div>
+                    <select class="form-control" th:field="*{type}"
+                            th:remove="all-but-first">
+                        <option th:each="type, iter: ${types}"
+                                th:field="*{type}"
+                                th:value="${type}"
+                                th:text="${type}"
+                        />
+                    </select>
+                </div>
+            </div>
+            <div class="input-group">
+                <div class="col-3 input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" th:text="#{address}">address</span>
+                    </div>
+                    <input type="text" name="address" id="address" th:field="*{address}"
+                           class="form-control" autofocus="true"/>
+                </div>
+                <div class="col-3 input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" th:text="#{modifyDate.from}">from</span>
+                    </div>
+                    <input type="datetime-local" th:field="*{modifyDateBegin}"  class="form-control" autofocus="true"/>
+                </div>
+                <div class="col-3 input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" th:text="#{till}">till</span>
+                    </div>
+                    <input type="datetime-local" th:field="*{modifyDateEnd}"  class="form-control" autofocus="true"/>
+                </div>
+                <div class="col-1 input-group mr-5">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" th:inline="text">[[#{include.childs}]]
+                        <input type="checkbox" class="form-control mx-3" th:field="*{includeChilds}"/></span>
+                    </div>
+                </div>
+                <div class="col-1 input-group">
+                    <button type="submit" value="#" class="btn btn-outline-warning mx-3"
+                            th:text="#{search}">
+                        submit
+                    </button>
+                </div>
+            </div>
+
+        </div>
+    </form>
+    <div class="btn-group blocks my-3" role="group">
+        <a id="view_button" href="#" class="btn btn-outline-warning  mx-3" th:text="#{oid.view}">Редактировать</a>
+    </div>
+    <div th:if="${items}" class="tablediv my-3 table-responsive">
+        <table class="table table-bordered ">
+            <thead class="thead-dark">
+            <tr>
+                <th class="text-light" th:text="#{naming}">Наименование</th>
+                <th class="text-light" th:text="#{address}">Адрес</th>
+                <th class="text-light" th:text="#{type}">Тип</th>
+                <th class="text-light" th:text="#{createDate}">Тип</th>
+                <th class="text-light" th:text="#{modifyDate}">Тип</th>
+                <th class="text-light" th:text="#{message}">Тип</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:if="${items.empty}">
+                <td colspan="6" th:text="#{list.is.empty}">Список пуст</td>
+            </tr>
+            <tr class="selectable_row" th:each="item, iter : ${items}" th:id="${'row_' + iter.count}"
+                th:onclick="${'javascript:onRowSelect(''user/report'', ''row_' + iter.count +''', ' + item.id + ')'}">
+                <td class="text-light" th:text="${item.name}">value</td>
+                <td class="text-light" th:text="${item.address}">value</td>
+                <td class="text-light" th:text="${item.type}">value</td>
+                <td class="text-light" th:text="${#temporals.format(item.createDate, 'yyyy-MM-dd HH:mm')}">value</td>
+                <td class="text-light" th:text="${#temporals.format(item.modifyDate, 'yyyy-MM-dd HH:mm')}">value</td>
+                <td class="text-light" th:text="${item.first() != null ?item.first().value:''}">value</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div th:replace="fragments/footer :: footer"/>
+
+</body>
+</html>
